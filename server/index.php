@@ -63,6 +63,7 @@ function handleRequest($request) {
     }
 }
 
+header('Content-Type: application/json');
 $response = handleRequest($_SERVER);
 echo json_encode($response);
 ?>
