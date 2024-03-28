@@ -1,7 +1,7 @@
 <?php
     function getUsers() {
         $users = [];
-        $file = fopen('users.csv', 'r');
+        $file = fopen('db/users.csv', 'r');
         while ($row = fgetcsv($file)) {
             $user = array_map('trim', $row);
             $users[] = [
@@ -44,7 +44,7 @@
     
     
     function saveUsers($users) {
-        $file = fopen('users.csv', 'w');
+        $file = fopen('db/users.csv', 'w');
         foreach ($users as $user) {
             fputcsv($file, $user);
         }
