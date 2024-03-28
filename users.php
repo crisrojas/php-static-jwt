@@ -21,7 +21,7 @@
         foreach ($users as $user) {
             if ($user['email'] == $email && $user['password'] == $password) {
                 $foundUser = $user;
-                break; // Detiene la búsqueda una vez que se encuentra el usuario
+                break;
             }
         }
         

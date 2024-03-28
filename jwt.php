@@ -1,22 +1,18 @@
 <?php    
     function generateJWT($user, $time) {
-        // Encabezado
         $header = json_encode(['alg' => 'HS256', 'typ' => 'JWT']);
         $header = base64_encode($header);
         
-        // Carga útil
         $payload = json_encode([
-            'sub' => $user['id'], // Identificador del usuario
-            'email' => $user['email'], // Correo electrónico del usuario
-            'iat' => time(), // Tiempo de emisión
-            'exp' => time() + ($time), // Tiempo de expiración (1 hora)
+            'sub' => $user['id'],
+            'email' => $user['email'],
+            'iat' => time(), 
+            'exp' => time() + ($time),
         ]);
         $payload = base64_encode($payload);
         
-        // Firma
         $signature = hash_hmac('sha256', "$header.$payload", 'your_secret_key');
         
-        // Token JWT completo
         $accessToken = "$header.$payload.$signature";
         return $accessToken;
     }
@@ -24,22 +20,19 @@
     function verifyJWT($jwt) {
         list($header, $payload, $signature) = explode('.', $jwt);
         
-        // Decodificar y verificar el encabezado y la carga útil
         $decodedHeader = json_decode(base64_decode($header), true);
         $decodedPayload = json_decode(base64_decode($payload), true);
         
-        // Verificar la firma
         $expectedSignature = hash_hmac('sha256', "$header.$payload", 'your_secret_key');
         if ($expectedSignature !== $signature) {
-            return false; // La firma no coincide, el token es inválido
+            return false; 
         }
         
-        // Verificar si el token ha expirado
         if (time() > $decodedPayload['exp']) {
-            return false; // El token ha expirado
+            return false; 
         }
         
-        return $decodedPayload; // El token es válido, devolver la carga útil decodificada
+        return $decodedPayload; 
     }
     
     function test() {
